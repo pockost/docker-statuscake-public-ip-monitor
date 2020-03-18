@@ -1,0 +1,36 @@
+A simple status cake ip monitor notifying to slack.
+
+
+Motivation
+==========
+
+
+This docker image is intended to monitor Status Cake monitor server. This one will display list of public IP on stdout at startup and new one if detected.
+This image is intended to notify you when new StatusCake IP are published on a slack channel
+
+
+Usage
+=====
+
+1/ Generate a slack webhook. In administration slack page go to Custom
+Integratim and create a new "Incoming WebHooks". You should get an
+webhook URL like :
+https://hooks.slack.com/services/XXXXXXX/XXXXX/XXXX
+
+2/ Run a new container
+
+
+  `docker run -d -e SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX/XXX/XXX pockost/statuscake-public-ip-monitor`
+
+
+Environment Variable
+====================
+
+You can configure running with following env var :
+
+`SLACK_WEBHOOK_URL`: The slack Web Hook URL in order to send notification (mandatory)
+`NOTIFY_FIRST_RUN`: Should we notify when the script start. Default: True
+`NOTIFY_RETREIVE_ERROR`: Should we send notification when there is an error retreiving ips. Default: True
+`RETREIVE_THRESHOLD`: If the script cannot retreive status cake ip adresse it retry many time before crash. This is the number of retry to proceed. Default: 3
+`INTERVAL`: Interval beetween 2 ips check, expreced in minute. Default: 60
+`INTERVAL_RETREIVE_ERROR`: Interval beetween 2 status cake retreive when error occured, expreced in second. Default: 10
